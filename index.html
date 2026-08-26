@@ -4,53 +4,62 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JIGAR Uploader Pro</title>
-<style>body{background:#1a1a1a;color:white;text-align:center;padding:20px;font-family:Arial}.container{max-width:900px;margin:auto;background:#2d2d2d;padding:30px;border-radius:15px}h1{color:#00ff88}input{margin:20px;padding:10px;background:#444;color:white;border-radius:5px;border:1px solid #555}button{background:#00ff88;color:black;border:none;padding:15px 40px;font-size:18px;font-weight:bold;border-radius:8px;cursor:pointer;margin:10px}#gallery{display:flex;flex-wrap:wrap;gap:15px;margin-top:30px;justify-content:center}#gallery img{width:160px;height:160px;object-fit:cover;border:3px solid #00ff88;border-radius:8px}textarea{width:100%;height:200px;padding:15px;background:#1a1a1a;color:#00ff88;border:2px solid #00ff88;border-radius:8px;font-family:monospace}.status{margin-top:15px;color:#00ff88;font-weight:bold}</style>
+<style>
+body{background:#111;color:#fff;text-align:center;padding:20px;font-family:Arial}
+h1{color:#00ff88}
+.btn{background:#00ff88;color:#000;border:none;padding:15px 30px;font-size:18px;font-weight:bold;border-radius:8px;margin:10px;cursor:pointer}
+.btn:disabled{background:#555;cursor:not-allowed}
+input{padding:10px;background:#333;color:#fff;border-radius:5px;border:1px solid #555}
+#gallery{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}
+#gallery img{width:150px;height:150px;object-fit:cover;border:2px solid #00ff88;border-radius:8px}
+#links{width:90%;height:150px;background:#000;color:#0f0;border:2px solid #0f0;padding:10px;font-family:monospace;margin-top:15px;font-size:14px;text-align:left}
+</style>
 </head>
 <body>
-<div class="container">
 <h1>📸 JIGAR Uploader Pro</h1>
 <p>تصویریں سلیکٹ کریں → CREATE LINKS دبائیں</p>
-<input type="file" id="fileInput" multiple accept="image/*"><br>
-<button id="uploadBtn" onclick="uploadImages()">CREATE LINKS</button>
-<button onclick="copyLinks()">COPY ALL LINKS</button>
-<div class="status" id="status"></div>
+
+<input type="file" id="f" multiple accept="image/*"><br>
+<button class="btn" id="btn" onclick="u()">CREATE LINKS</button>
+<button class="btn" onclick="c()">COPY ALL LINKS</button>
+
+<p id="s" style="color:#00ff88;font-weight:bold;margin-top:15px"></p>
 <div id="gallery"></div>
-<div style="margin-top:30px;text-align:right">
-<h3>✅ آپ کے CDN لنک:</h3>
+
 <textarea id="links" readonly placeholder="لنک یہاں آئیں گے..."></textarea>
-</div>
-</div>
+
 <script>
-const CLIENT_ID = "YOUR_IMGUR_CLIENT_ID_HERE"; 
-async function uploadImages() {
-  const files = document.getElementById('fileInput').files;
-  if(files.length === 0) { alert("پہلے تصویریں سلیکٹ کریں"); return; }
-  if(CLIENT_ID === "YOUR_IMGUR_CLIENT_ID_HERE") { alert("پہلے اپنا Client ID لگائیں"); return; }
-  document.getElementById('uploadBtn').disabled = true;
-  document.getElementById('gallery').innerHTML = "";
-  let allLinks = ""; let count = 0;
-  for(let file of files) {
-    let formData = new FormData();
-    formData.append("image", file);
-    let res = await fetch("https://api.imgur.com/3/image", {method: "POST", headers: { Authorization: "Client-ID " + CLIENT_ID }, body: formData});
-    let data = await res.json();
-    if(data.success) {
-      allLinks += data.data.link + "\n";
-      count++;
-      document.getElementById('status').innerText = "اپلوڈ ہو رہا ہے... " + count + "/" + files.length;
-      let div = document.createElement("div");
-      div.innerHTML = `<img src="${data.data.link}"><br><small>${file.name}</small>`;
-      document.getElementById('gallery').appendChild(div);
-    }
-  }
-  document.getElementById('links').value = allLinks;
-  document.getElementById('status').innerText = "✅ مکمل! " + count + " لنک بن گئے";
-  document.getElementById('uploadBtn').disabled = false;
+// یہاں اپنا Imgur Client ID لگائیں
+const ID="PASTE_YOUR_CLIENT_ID_HERE"; 
+
+async function u(){
+if(!f.files.length)return alert("پہلے فائل سلیکٹ کریں");
+if(ID==="PASTE_YOUR_CLIENT_ID_HERE")return alert("پہلے Client ID لگائیں");
+btn.disabled=true;
+s.innerText="اپلوڈ ہو رہا ہے... 0/"+f.files.length;
+gallery.innerHTML="";
+let L="";
+let count=0;
+for(let x of f.files){
+let d=new FormData();
+d.append("image",x);
+let r=await fetch("https://api.imgur.com/3/image",{method:"POST",headers:{Authorization:"Client-ID "+ID},body:d});
+let j=await r.json();
+if(j.success){
+L+=j.data.link+"\n";
+count++;
+s.innerText="اپلوڈ ہو رہا ہے... "+count+"/"+f.files.length;
+gallery.innerHTML+=`<img src="${j.data.link}">`;
 }
-function copyLinks() {
-  document.getElementById('links').select();
-  document.execCommand('copy');
-  alert("لنک کاپی ہو گئے!");
+links.value=L;
+s.innerText="✅ مکمل! "+count+" لنک بن گئے";
+btn.disabled=false;
+}
+
+function c(){
+links.select();
+document.execCommand("copy");
+alert("لنک کاپی ہو گئے");
 }
 </script>
 </body>
