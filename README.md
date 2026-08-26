@@ -3,14 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BILLIONAIRE BIO SCIENCE CODES 🔥</title>
+<title>BILLIONAIRE BIO SCIENCE CODES</title>
 <style>
-  body { background: #000; color: #fff; font-family: Arial; text-align: center; padding: 20px; margin:0; }
-  h1 { color: #00ff88; font-size: 28px; text-shadow: 0 0 15px #00ff88; }
-  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 800px; margin: 30px auto; }
-  @media(max-width: 600px){ .grid{ grid-template-columns: 1fr; }}
-  .card { border: 3px solid #00ff88; border-radius: 15px; padding: 10px; background: #111; }
-  .card img { width: 100%; border-radius: 10px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    background: #000; 
+    color: #fff; 
+    font-family: Arial, sans-serif; 
+    text-align: center; 
+    padding: 20px; 
+  }
+  h1 { 
+    color: #00ff88; 
+    font-size: 32px; 
+    margin: 20px 0 40px 0;
+    text-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88; 
+  }
+  .grid { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 25px; 
+    max-width: 900px; 
+    margin: 0 auto; 
+  }
+  @media(max-width: 700px){ 
+    .grid{ grid-template-columns: 1fr; }
+    h1{ font-size: 24px; }
+  }
+  .card { 
+    border: 3px solid #00ff88; 
+    border-radius: 15px; 
+    padding: 8px; 
+    background: #0a0a0a; 
+    box-shadow: 0 0 15px rgba(0,255,136,0.3);
+  }
+  .card img { 
+    width: 100%; 
+    border-radius: 10px; 
+    display: block;
+  }
 </style>
 </head>
 <body>
