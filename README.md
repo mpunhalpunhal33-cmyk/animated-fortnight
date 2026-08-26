@@ -54,3 +54,47 @@ async function uploadImages() {
     alert("پہلے اپنا Client ID لگائیں"); 
     return; 
   }
+  
+  btn.disabled = true;
+  document.getElementById('gallery').innerHTML = "";
+  status.innerText = "اپلوڈ ہو رہا ہے... 0/" + files.length;
+  let allLinks = "";
+  let count = 0;
+  
+  for(let file of files) {
+    let formData = new FormData();
+    formData.append("image", file);
+    
+    try {
+      let res = await fetch("https://api.imgur.com/3/image", {
+        method: "POST",
+        headers: { Authorization: "Client-ID " + CLIENT_ID },
+        body: formData
+      });
+      
+      let data = await res.json();
+      if(data.success) {
+        allLinks += data.data.link + "\n";
+        count++;
+        status.innerText = "اپلوڈ ہو رہا ہے... " + count + "/" + files.length;
+        
+        let div = document.createElement("div");
+        div.innerHTML = `<img src="${data.data.link}"><br><small>${file.name}</small>`;
+        document.getElementById('gallery').appendChild(div);
+      }
+    } catch(e) {}
+  }
+  document.getElementById('links').value = allLinks;
+  status.innerText = "✅ مکمل! " + count + " لنک بن گئے";
+  btn.disabled = false;
+}
+
+function copyLinks() {
+  const links = document.getElementById('links');
+  links.select();
+  document.execCommand('copy');
+  alert("لنک کاپی ہو گئے!");
+}
+</script>
+</body>
+</html>
