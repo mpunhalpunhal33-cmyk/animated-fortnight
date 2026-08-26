@@ -29,7 +29,7 @@ input{padding:10px;background:#333;color:#fff;border-radius:5px;border:1px solid
 <textarea id="links" readonly placeholder="لنک یہاں آئیں گے..."></textarea>
 <script>
 // یہاں اپنا Imgur Client ID لگائیں
-const ID="a1b2c3d4e5f6g7";  // صرف 1 لائن ہو
+const ID="a1b2c3d4e5f6g7";
 async function u(){
 if(!f.files.length)return alert("پہلے فائل سلیکٹ کریں");
 if(ID==="PASTE_YOUR_CLIENT_ID_HERE")return alert("پہلے Client ID لگائیں");
