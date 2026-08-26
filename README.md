@@ -1,1 +1,72 @@
-<img src="https://bve.parivahansewa.pro/cdn/qvf43zt26nup.jpg">
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JIGAR Uploader</title>
+<style>
+body { font-family: Arial; background: #f0f0f0; padding: 20px; text-align: center; }
+.container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
+h1 { color: #333; }
+input[type="file"] { margin: 20px 0; }
+button { background: #28a745; color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 5px; cursor: pointer; }
+button:hover { background: #218838; }
+#gallery { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; justify-content: center; }
+#gallery img { width: 150px; height: 150px; object-fit: cover; border: 2px solid #ddd; border-radius: 5px; }
+.link-box { margin-top: 20px; text-align: left; }
+.link-box textarea { width: 100%; height: 150px; padding: 10px; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>📸 JIGAR Uploader</h1>
+<p>تصویریں سلیکٹ کریں اور CDN لنک حاصل کریں</p>
+
+<input type="file" id="fileInput" multiple accept="image/*">
+<br>
+<button onclick="uploadImages()">CREATE LINKS</button>
+
+<div id="gallery"></div>
+
+<div class="link-box">
+<h3>✅ آپ کے CDN لنک:</h3>
+<textarea id="links" readonly placeholder="لنک یہاں آئیں گے..."></textarea>
+</div>
+
+</div>
+
+<script>
+const CLIENT_ID = "YOUR_IMGUR_CLIENT_ID"; // نیچے طریقہ دیا ہے
+
+async function uploadImages() {
+  const files = document.getElementById('fileInput').files;
+  if(files.length === 0) { alert("پہلے تصویریں سلیکٹ کریں"); return; }
+  
+  document.getElementById('links').value = "اپلوڈ ہو رہا ہے... انتظار کریں";
+  let allLinks = "";
+  
+  for(let file of files) {
+    let formData = new FormData();
+    formData.append("image", file);
+    
+    let res = await fetch("https://api.imgur.com/3/image", {
+      method: "POST",
+      headers: { Authorization: "Client-ID " + CLIENT_ID },
+      body: formData
+    });
+    
+    let data = await res.json();
+    if(data.success) {
+      allLinks += data.data.link + "\n";
+      
+      // گیلری میں شو کریں
+      let img = document.createElement("img");
+      img.src = data.data.link;
+      document.getElementById('gallery').appendChild(img);
+    }
+  }
+  document.getElementById('links').value = allLinks;
+}
+</script>
+</body>
+</html>
