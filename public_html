@@ -1,0 +1,6 @@
+public_html/
+  ├── config.php    
+  ├── includes/
+  ├── pages/
+  ├── user/
+  └── index.php
